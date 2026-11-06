@@ -1,29 +1,22 @@
+'use strict';
 
-let slideIndex = 1;
-showSlides(slideIndex);
+const menuButton = document.querySelector('.menu-toggle');
+const navigation = document.querySelector('#main-nav');
 
-// Next/previous controls
-function plusSlides(n) {
-  showSlides(slideIndex += n);
+if (menuButton && navigation) {
+  menuButton.addEventListener('click', () => {
+    const expanded = menuButton.getAttribute('aria-expanded') === 'true';
+    menuButton.setAttribute('aria-expanded', String(!expanded));
+    navigation.classList.toggle('is-open', !expanded);
+  });
+
+  navigation.addEventListener('click', (event) => {
+    if (event.target.closest('a')) {
+      menuButton.setAttribute('aria-expanded', 'false');
+      navigation.classList.remove('is-open');
+    }
+  });
 }
 
-// Thumbnail image controls
-function currentSlide(n) {
-  showSlides(slideIndex = n);
-}
-
-function showSlides(n) {
-  let i;
-  let slides = document.getElementsByClassName("theSlides");
-  let dots = document.getElementsByClassName("dot");
-  if (n > slides.length) {slideIndex = 1}
-  if (n < 1) {slideIndex = slides.length}
-  for (i = 0; i < slides.length; i++) {
-    slides[i].style.display = "none";
-  }
-  for (i = 0; i < dots.length; i++) {
-    dots[i].className = dots[i].className.replace(" active", "");
-  }
-  slides[slideIndex+1].style.display = "block";
-  dots[slideIndex+1].className += " active";
-} 
+const yearElement = document.querySelector('#year');
+if (yearElement) yearElement.textContent = String(new Date().getFullYear());
