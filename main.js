@@ -1,22 +1,17 @@
-'use strict';
+const toggle = document.querySelector('.nav-toggle');
+const nav = document.querySelector('#nav');
 
-const menuButton = document.querySelector('.menu-toggle');
-const navigation = document.querySelector('#main-nav');
-
-if (menuButton && navigation) {
-  menuButton.addEventListener('click', () => {
-    const expanded = menuButton.getAttribute('aria-expanded') === 'true';
-    menuButton.setAttribute('aria-expanded', String(!expanded));
-    navigation.classList.toggle('is-open', !expanded);
+if (toggle && nav) {
+  toggle.addEventListener('click', () => {
+    const open = toggle.getAttribute('aria-expanded') !== 'true';
+    toggle.setAttribute('aria-expanded', String(open));
+    nav.classList.toggle('is-open', open);
   });
-
-  navigation.addEventListener('click', (event) => {
-    if (event.target.closest('a')) {
-      menuButton.setAttribute('aria-expanded', 'false');
-      navigation.classList.remove('is-open');
-    }
-  });
+  nav.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
+    toggle.setAttribute('aria-expanded', 'false');
+    nav.classList.remove('is-open');
+  }));
 }
 
-const yearElement = document.querySelector('#year');
-if (yearElement) yearElement.textContent = String(new Date().getFullYear());
+const year = document.querySelector('#year');
+if (year) year.textContent = new Date().getFullYear();
